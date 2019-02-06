@@ -28,7 +28,7 @@ public class Physics {
         }
 
         for (Projectile p : projectiles) {
-            if (p.getY() > 0) System.out.println(p.toString());
+            if (p.getY() > 0) System.out.println(p);
         }
     }
 }
