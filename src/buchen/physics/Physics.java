@@ -1,3 +1,5 @@
+package buchen.physics;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -5,7 +7,7 @@ public class Physics {
 
     public static void main(String[] args) {
 
-        /*Projectile p1 = new Projectile(50, 67);
+        /*buchen.physics.Projectile p1 = new buchen.physics.Projectile(50, 67);
 
         for (int i = 0; i <= 10; ++i) {
             System.out.println(p1);

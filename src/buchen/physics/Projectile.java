@@ -1,3 +1,5 @@
+package buchen.physics;
+
 public class Projectile {
 
     private final double degrees, velocity;
