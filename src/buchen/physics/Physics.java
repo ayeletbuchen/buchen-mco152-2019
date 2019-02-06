@@ -7,12 +7,6 @@ public class Physics {
 
     public static void main(String[] args) {
 
-        /*buchen.physics.Projectile p1 = new buchen.physics.Projectile(50, 67);
-
-        for (int i = 0; i <= 10; ++i) {
-            System.out.println(p1);
-            p1.addTime(1);
-        }*/
         final int velocityMin = 50, velocityMax = 120, degreesMin = 30, degreesMax = 150, seconds = 120, projectileBound = 6;
         Random random = new Random();
         ArrayList<Projectile> projectiles = new ArrayList<>();
