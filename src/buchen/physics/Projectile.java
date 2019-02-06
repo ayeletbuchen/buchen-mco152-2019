@@ -2,12 +2,13 @@ package buchen.physics;
 
 public class Projectile {
 
-    private final double degrees, velocity;
+    private final double DEGREES;
+    private final double VELOCITY;
     private double time;
 
     public Projectile(double velocity, double degrees) {
-        this.velocity = velocity;
-        this.degrees = degrees;
+        VELOCITY = velocity;
+        DEGREES = degrees;
     }
 
     public void addTime(double deltaTime) {
@@ -15,11 +16,11 @@ public class Projectile {
     }
 
     public double getX() {
-        return Math.cos(Math.toRadians(degrees)) * velocity * time;
+        return Math.cos(Math.toRadians(DEGREES)) * VELOCITY * time;
     }
 
     public double getY() {
-        return Math.sin(Math.toRadians(degrees)) * velocity * time - 9.8 * 0.5 * time * time;
+        return Math.sin(Math.toRadians(DEGREES)) * VELOCITY * time - 9.8 * 0.5 * time * time;
     }
 
     @Override
