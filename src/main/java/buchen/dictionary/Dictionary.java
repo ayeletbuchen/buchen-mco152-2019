@@ -24,6 +24,10 @@ public class Dictionary {
         }
     }
 
+    public List<String> getList() {
+        return dictionary;
+    }
+
     public int size() {
         return dictionary.size();
     }
@@ -38,9 +42,7 @@ public class Dictionary {
     }
 
     private String getReverse(String word) {
-        StringBuilder reversed = new StringBuilder();
-        reversed.append(word);
-        return reversed.reverse().toString();
+        return new StringBuilder(word).reverse().toString();
     }
 
     public List<String> getPalindromes() {
