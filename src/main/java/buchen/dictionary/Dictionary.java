@@ -34,19 +34,13 @@ public class Dictionary {
     }
 
     public boolean isPalindrome(String word) {
-        word = word.toUpperCase();
-        for (int i = 0; i < word.length() / 2; i++) {
-            int j = word.length() - 1 - i;
-            if (word.charAt(i) != word.charAt(j) || word.charAt(i) == ' ') {
-                return false;
-            }
-        }
+        return getReverse(word).equalsIgnoreCase(word);
+    }
 
-        if (word.length() % 2 != 0) { // make sure this is only one word
-            return word.charAt(word.length() / 2) != ' ';
-        }
-
-        return true;
+    private String getReverse(String word) {
+        StringBuilder reversed = new StringBuilder();
+        reversed.append(word);
+        return reversed.reverse().toString();
     }
 
     public List<String> getPalindromes() {

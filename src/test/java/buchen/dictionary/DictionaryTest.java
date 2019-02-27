@@ -112,16 +112,6 @@ class DictionaryTest {
     }
 
     @Test
-    public void isPalindromeFalseMoreThanOneWord() throws FileNotFoundException {
-        // given
-        Dictionary dictionary = new Dictionary("dictionary.txt");
-
-        // when
-        // then
-        assertFalse(dictionary.isPalindrome("dad dad"));
-    }
-
-    @Test
     public void getPalindromesTestFile() throws FileNotFoundException {
         // given
         Dictionary testDictionary = new Dictionary("dictionaryTest.txt");
@@ -129,7 +119,7 @@ class DictionaryTest {
         expectedPalindromes.add("dad");
         expectedPalindromes.add("mom");
         expectedPalindromes.add("racecar");
-        expectedPalindromes.add("dad");
+        expectedPalindromes.add("yay");
 
         List<String> palindromes = testDictionary.getPalindromes();
 
