@@ -46,6 +46,7 @@ public class Bananagrams {
     }
 
     public boolean isPossibleWord(String word) {
+        word = word.toUpperCase();
         int[] wordLetters = new int[letters.length];
 
         for (int i = 0; i < word.length(); i++) {
