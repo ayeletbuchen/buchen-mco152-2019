@@ -23,12 +23,24 @@ public class Bananagrams {
         generateRandomLetters();
     }
 
+    protected void setLettersForTest() { //ONLY TO BE USED FOR PURPOSES OF TESTING
+        string.delete(0, string.length());
+        for (int i = 0; i < NUM_LETTERS; i++) {
+            letters[i] = 1;
+            updateString(i);
+        }
+    }
+
     private void generateRandomLetters() {
         for (int i = 0; i < NUM_LETTERS; i++) {
             int index = random.nextInt(ALPHABET_SIZE);
             letters[index]++;
-            string.append((char) (index + FIRST_CHAR));
+            updateString(index);
         }
+    }
+
+    private void updateString(int i) {
+        string.append((char) (i + FIRST_CHAR));
     }
 
     public String getLetters() {
