@@ -1,9 +1,8 @@
 package buchen.dictionary;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.internal.util.reflection.FieldSetter;
 
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,11 +14,16 @@ class BananagramsTest {
 
     private final int NUM_LETTERS = 26;
     private final int FIRST_CHAR = 'A';
+    private final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    Dictionary dictionary = new Dictionary("dictionary.txt");
+
+    BananagramsTest() throws FileNotFoundException {
+    }
 
     @Test
     public void generateRandomUppercaseLetters() {
         // given
-        Bananagrams bananagrams = new Bananagrams(NUM_LETTERS);
+        Bananagrams bananagrams = new Bananagrams(NUM_LETTERS, dictionary);
         String letters = bananagrams.getLetters();
 
         // when
@@ -33,25 +37,25 @@ class BananagramsTest {
     @Test
     public void setLettersForTest() {
         // given
-        Bananagrams bananagrams = new Bananagrams(NUM_LETTERS);
+        Bananagrams bananagrams = new Bananagrams(NUM_LETTERS, dictionary);
 
         // when
-        bananagrams.setLettersForTest();
+        bananagrams.setLetters(ALPHABET);
         String letters = bananagrams.getLetters();
 
         // then
-        for (int i = 0; i < NUM_LETTERS; i++) {
-            assertEquals((int) FIRST_CHAR + i, letters.charAt(i));
+        for (int i = 0; i < ALPHABET.length(); i++) {
+            assertEquals((int) ALPHABET.charAt(i), letters.charAt(i));
         }
     }
 
     @Test
     public void isPossibleWordTrue() {
         // given
-        Bananagrams bananagrams = new Bananagrams(NUM_LETTERS);
+        Bananagrams bananagrams = new Bananagrams(NUM_LETTERS, dictionary);
 
         // when
-        bananagrams.setLettersForTest();
+        bananagrams.setLetters(ALPHABET);
 
         // then
         assertTrue(bananagrams.isPossibleWord("ABCDEFGHIJKLMNOPQRSTUVWXYZ"));
@@ -60,10 +64,10 @@ class BananagramsTest {
     @Test
     public void isPossibleWordFalse() {
         // given
-        Bananagrams bananagrams = new Bananagrams(NUM_LETTERS);
+        Bananagrams bananagrams = new Bananagrams(NUM_LETTERS, dictionary);
 
         // when
-        bananagrams.setLettersForTest();
+        bananagrams.setLetters(ALPHABET);
 
         // then
         assertFalse(bananagrams.isPossibleWord("ZOO"));
@@ -73,10 +77,10 @@ class BananagramsTest {
     @Test
     public void isPossibleWordUpperCase() {
         // given
-        Bananagrams bananagrams = new Bananagrams(NUM_LETTERS);
+        Bananagrams bananagrams = new Bananagrams(NUM_LETTERS, dictionary);
 
         // when
-        bananagrams.setLettersForTest();
+        bananagrams.setLetters("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
         // then
         assertTrue(bananagrams.isPossibleWord("WONDERFUL"));
@@ -85,10 +89,10 @@ class BananagramsTest {
     @Test
     public void isPossibleWordLowerCase() {
         // given
-        Bananagrams bananagrams = new Bananagrams(NUM_LETTERS);
+        Bananagrams bananagrams = new Bananagrams(NUM_LETTERS, dictionary);
 
         // when
-        bananagrams.setLettersForTest();
+        bananagrams.setLetters("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
         // then
         assertTrue(bananagrams.isPossibleWord("abcdefghijklmnopqrstuvwxyz"));
@@ -97,10 +101,10 @@ class BananagramsTest {
     @Test
     public void isPossibleWordMixedCase() {
         // given
-        Bananagrams bananagrams = new Bananagrams(NUM_LETTERS);
+        Bananagrams bananagrams = new Bananagrams(NUM_LETTERS, dictionary);
 
         // when
-        bananagrams.setLettersForTest();
+        bananagrams.setLetters("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
         // then
         assertTrue(bananagrams.isPossibleWord("WoNdERfuL"));
@@ -109,7 +113,7 @@ class BananagramsTest {
     @Test
     public void isPossibleWordEmptyString() {
         // given
-        Bananagrams bananagrams = new Bananagrams(NUM_LETTERS);
+        Bananagrams bananagrams = new Bananagrams(NUM_LETTERS, dictionary);
 
         // when
 
@@ -120,19 +124,18 @@ class BananagramsTest {
     @Test
     public void getPossibleWords() {
         // given
-        Bananagrams bananagrams = new Bananagrams(NUM_LETTERS);
-
-        Dictionary dictionary = mock(Dictionary.class);
-        List<String> wordList = Arrays.asList("WONDER","GREAT","CAR","FAINT","ZOO");
+        Dictionary words = mock(Dictionary.class);
+        List<String> wordList = Arrays.asList("WONDER","GREAT","CAR","FAINT","ZOO","b", "beautiful");
+        doReturn(wordList).when(words).getList();
+        Bananagrams bananagrams = new Bananagrams(NUM_LETTERS, words);
 
 
         // when
-        bananagrams.setLettersForTest();
-        doReturn(wordList).when(dictionary).getList();
-        List<String> possibleWords = bananagrams.getPossibleWords(dictionary);
+        bananagrams.setLetters(ALPHABET);
+        List<String> possibleWords = bananagrams.getWords();
 
         // then
-        assertEquals(4, possibleWords.size());
+        assertEquals(5, possibleWords.size());
         assertTrue(possibleWords.contains("WONDER"));
         assertTrue(possibleWords.contains("GREAT"));
         assertTrue(possibleWords.contains("CAR"));

@@ -6,50 +6,69 @@ import java.util.Random;
 
 public class Bananagrams {
 
-    private final int ALPHABET_SIZE;
+    private final int ALPHABET_SIZE = 26;
+    private final char FIRST_CHAR = 'A';
+    private final Random RANDOM = new Random();
     private final int NUM_LETTERS;
-    private final char FIRST_CHAR;
+    private final Dictionary DICTIONARY;
     private int[] letters;
-    private Random random;
-    private StringBuilder string;
+    private StringBuilder builder;
 
-    public Bananagrams(int numLetters) {
-        ALPHABET_SIZE = 26;
+    public Bananagrams(int numLetters, Dictionary dictionary) {
         NUM_LETTERS = numLetters;
-        FIRST_CHAR = 'A';
+        DICTIONARY = dictionary;
         letters = new int[ALPHABET_SIZE];
-        random = new Random();
-        string = new StringBuilder();
+        builder = new StringBuilder();
         generateRandomLetters();
     }
 
-    protected void setLettersForTest() { //ONLY TO BE USED FOR PURPOSES OF TESTING
-        string.delete(0, string.length());
-        for (int i = 0; i < NUM_LETTERS; i++) {
-            letters[i] = 1;
-            updateString(i);
-        }
-    }
-
-    private void generateRandomLetters() {
-        for (int i = 0; i < NUM_LETTERS; i++) {
-            int index = random.nextInt(ALPHABET_SIZE);
+    public Bananagrams(int numLetters, Dictionary dictionary, String chosenLetters) {
+        NUM_LETTERS = numLetters;
+        DICTIONARY = dictionary;
+        letters = new int[ALPHABET_SIZE];
+        builder = new StringBuilder();
+        chosenLetters = chosenLetters.toUpperCase();
+        for (int i = 0; i < chosenLetters.length(); i++) {
+            int index = (int) chosenLetters.charAt(i) - FIRST_CHAR;
             letters[index]++;
             updateString(index);
         }
     }
 
-    private void updateString(int i) {
-        string.append((char) (i + FIRST_CHAR));
+    void setLetters(String chosenLetters) { //ONLY TO BE USED FOR PURPOSES OF TESTING
+        builder.delete(0, builder.length());
+        chosenLetters = chosenLetters.toUpperCase();
+        letters = new int[ALPHABET_SIZE];
+        for (int i = 0; i < chosenLetters.length(); i++) {
+            int index = (int) chosenLetters.charAt(i) - FIRST_CHAR;
+            letters[index]++;
+            updateString(index);
+        }
+    }
+
+    private void generateRandomLetters() {
+        for (int i = 0; i < NUM_LETTERS; i++) {
+            int index = RANDOM.nextInt(ALPHABET_SIZE);
+            letters[index]++;
+            updateString(index);
+        }
+    }
+
+    private void updateString(int index) {
+        builder.append((char) (index + FIRST_CHAR));
     }
 
     public String getLetters() {
-        return string.toString();
+        return builder.toString();
     }
 
-    public List<String> getPossibleWords(Dictionary dictionary) {
+    /**
+     *
+     * @return a List of words in the Dictionary that are a subset of these letters
+     */
+    public List<String> getWords() {
         ArrayList<String> possibleWords = new ArrayList<>();
-        for (String word : dictionary.getList()) {
+        for (String word : DICTIONARY.getList()) {
             if (word.length() <= NUM_LETTERS && isPossibleWord(word)) {
                 possibleWords.add(word);
             }
