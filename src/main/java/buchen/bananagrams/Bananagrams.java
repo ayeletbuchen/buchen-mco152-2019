@@ -1,89 +1,53 @@
-package buchen.dictionary;
+package buchen.bananagrams;
+
+import buchen.dictionary.Dictionary;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class Bananagrams {
 
-    private final int ALPHABET_SIZE = 26;
-    private final char FIRST_CHAR = 'A';
-    private final Random RANDOM = new Random();
-    private final int NUM_LETTERS;
     private final Dictionary DICTIONARY;
-    private int[] letters;
-    private StringBuilder builder;
 
-    public Bananagrams(int numLetters, Dictionary dictionary) {
-        NUM_LETTERS = numLetters;
+    public Bananagrams(Dictionary dictionary) {
         DICTIONARY = dictionary;
-        letters = new int[ALPHABET_SIZE];
-        builder = new StringBuilder();
-        generateRandomLetters();
-    }
-
-    public Bananagrams(int numLetters, Dictionary dictionary, String chosenLetters) {
-        NUM_LETTERS = numLetters;
-        DICTIONARY = dictionary;
-        letters = new int[ALPHABET_SIZE];
-        builder = new StringBuilder();
-        chosenLetters = chosenLetters.toUpperCase();
-        for (int i = 0; i < chosenLetters.length(); i++) {
-            int index = (int) chosenLetters.charAt(i) - FIRST_CHAR;
-            letters[index]++;
-            updateString(index);
-        }
-    }
-
-    void setLetters(String chosenLetters) { //ONLY TO BE USED FOR PURPOSES OF TESTING
-        builder.delete(0, builder.length());
-        chosenLetters = chosenLetters.toUpperCase();
-        letters = new int[ALPHABET_SIZE];
-        for (int i = 0; i < chosenLetters.length(); i++) {
-            int index = (int) chosenLetters.charAt(i) - FIRST_CHAR;
-            letters[index]++;
-            updateString(index);
-        }
-    }
-
-    private void generateRandomLetters() {
-        for (int i = 0; i < NUM_LETTERS; i++) {
-            int index = RANDOM.nextInt(ALPHABET_SIZE);
-            letters[index]++;
-            updateString(index);
-        }
-    }
-
-    private void updateString(int index) {
-        builder.append((char) (index + FIRST_CHAR));
-    }
-
-    public String getLetters() {
-        return builder.toString();
     }
 
     /**
      *
+     * @param player
      * @return a List of words in the Dictionary that are a subset of these letters
      */
-    public List<String> getWords() {
+    public List<String> getWords(Player player) {
+        int[] tiles = player.getLettersAsArray();
         ArrayList<String> possibleWords = new ArrayList<>();
         for (String word : DICTIONARY.getList()) {
-            if (word.length() <= NUM_LETTERS && isPossibleWord(word)) {
+            if (word.length() <= tiles.length && isPossibleWord(player, word)) {
                 possibleWords.add(word);
             }
         }
         return possibleWords;
     }
 
-    public boolean isPossibleWord(String word) {
+    /**
+     *
+     * @param player
+     * @param word
+     * @return boolean value indicating whether or not the given word is possible for the given player
+     */
+    public boolean isPossibleWord(Player player, String word) {
+        if (word.length() == 0) {
+            return false;
+        }
+        int[] tiles = player.getLettersAsArray();
+        int[] wordLetters = new int[tiles.length];
+        char firstChar = player.getFirstChar();
         word = word.toUpperCase();
-        int[] wordLetters = new int[letters.length];
 
         for (int i = 0; i < word.length(); i++) {
-            int letter = (int) word.charAt(i) - FIRST_CHAR;
+            int letter = (int) word.charAt(i) - firstChar;
             wordLetters[letter]++;
-            if (wordLetters[letter] > letters[letter]) {
+            if (wordLetters[letter] > tiles[letter]) {
                 return false;
             }
         }

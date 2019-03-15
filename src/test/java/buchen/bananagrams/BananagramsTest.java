@@ -1,5 +1,7 @@
-package buchen.dictionary;
+package buchen.bananagrams;
 
+import buchen.dictionary.Dictionary;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
@@ -7,132 +9,100 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 class BananagramsTest {
 
-    private final int NUM_LETTERS = 26;
-    private final int FIRST_CHAR = 'A';
-    private final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    Dictionary dictionary = new Dictionary("dictionary.txt");
 
-    BananagramsTest() throws FileNotFoundException {
-    }
+    Dictionary dictionary;
+    Player player;
+    final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    Bananagrams bananagrams;
 
-    @Test
-    public void generateRandomUppercaseLetters() {
-        // given
-        Bananagrams bananagrams = new Bananagrams(NUM_LETTERS, dictionary);
-        String letters = bananagrams.getLetters();
+    @BeforeEach
+    public void setUpMock() {
+        dictionary = mock(Dictionary.class);
+        List<String> wordList = Arrays.asList("WONDER","GREAT", "CAR", "FAINT", "ZOO", "b", "beautiful");
+        doReturn(wordList).when(dictionary).getList();
 
-        // when
-
-        //then
-        for (int i = 0; i < letters.length(); i++) {
-            assertTrue(Character.isAlphabetic(letters.charAt(i)) && Character.isUpperCase(letters.charAt(i)));
+        player = mock(Player.class);
+        doReturn('A').when(player).getFirstChar();
+        int[] tiles = new int[ALPHABET.length()];
+        for (int i = 0; i < tiles.length; i++) {
+            tiles[i] = 1;
         }
+        doReturn(tiles).when(player).getLettersAsArray();
+        bananagrams = new Bananagrams(dictionary);
     }
 
-    @Test
-    public void setLettersForTest() {
-        // given
-        Bananagrams bananagrams = new Bananagrams(NUM_LETTERS, dictionary);
-
-        // when
-        bananagrams.setLetters(ALPHABET);
-        String letters = bananagrams.getLetters();
-
-        // then
-        for (int i = 0; i < ALPHABET.length(); i++) {
-            assertEquals((int) ALPHABET.charAt(i), letters.charAt(i));
-        }
-    }
 
     @Test
     public void isPossibleWordTrue() {
         // given
-        Bananagrams bananagrams = new Bananagrams(NUM_LETTERS, dictionary);
 
         // when
-        bananagrams.setLetters(ALPHABET);
 
         // then
-        assertTrue(bananagrams.isPossibleWord("ABCDEFGHIJKLMNOPQRSTUVWXYZ"));
+        assertTrue(bananagrams.isPossibleWord(player, ALPHABET));
     }
 
     @Test
     public void isPossibleWordFalse() {
         // given
-        Bananagrams bananagrams = new Bananagrams(NUM_LETTERS, dictionary);
 
         // when
-        bananagrams.setLetters(ALPHABET);
 
         // then
-        assertFalse(bananagrams.isPossibleWord("ZOO"));
-        assertFalse(bananagrams.isPossibleWord("AABCDEFGHIJKLMNOPQRSTUVWXYZ"));
+        assertFalse(bananagrams.isPossibleWord(player,"ZOO"));
+        assertFalse(bananagrams.isPossibleWord(player,"A" + ALPHABET));
     }
 
     @Test
     public void isPossibleWordUpperCase() {
         // given
-        Bananagrams bananagrams = new Bananagrams(NUM_LETTERS, dictionary);
 
         // when
-        bananagrams.setLetters("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
         // then
-        assertTrue(bananagrams.isPossibleWord("WONDERFUL"));
+        assertTrue(bananagrams.isPossibleWord(player, "WONDERFUL"));
     }
 
     @Test
     public void isPossibleWordLowerCase() {
         // given
-        Bananagrams bananagrams = new Bananagrams(NUM_LETTERS, dictionary);
 
         // when
-        bananagrams.setLetters("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
         // then
-        assertTrue(bananagrams.isPossibleWord("abcdefghijklmnopqrstuvwxyz"));
+        assertTrue(bananagrams.isPossibleWord(player, ALPHABET.toLowerCase()));
     }
 
     @Test
     public void isPossibleWordMixedCase() {
         // given
-        Bananagrams bananagrams = new Bananagrams(NUM_LETTERS, dictionary);
 
         // when
-        bananagrams.setLetters("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
         // then
-        assertTrue(bananagrams.isPossibleWord("WoNdERfuL"));
+        assertTrue(bananagrams.isPossibleWord(player, "WoNdERfuL"));
     }
 
     @Test
-    public void isPossibleWordEmptyString() {
+    public void isPossibleWordEmptyStringFalse() {
         // given
-        Bananagrams bananagrams = new Bananagrams(NUM_LETTERS, dictionary);
 
         // when
 
         // then
-        assertTrue(bananagrams.isPossibleWord(""));
+        assertFalse(bananagrams.isPossibleWord(player,""));
     }
 
     @Test
     public void getPossibleWords() {
         // given
-        Dictionary words = mock(Dictionary.class);
-        List<String> wordList = Arrays.asList("WONDER","GREAT","CAR","FAINT","ZOO","b", "beautiful");
-        doReturn(wordList).when(words).getList();
-        Bananagrams bananagrams = new Bananagrams(NUM_LETTERS, words);
-
+        List<String> possibleWords = bananagrams.getWords(player);
 
         // when
-        bananagrams.setLetters(ALPHABET);
-        List<String> possibleWords = bananagrams.getWords();
 
         // then
         assertEquals(5, possibleWords.size());
@@ -140,6 +110,50 @@ class BananagramsTest {
         assertTrue(possibleWords.contains("GREAT"));
         assertTrue(possibleWords.contains("CAR"));
         assertTrue(possibleWords.contains("FAINT"));
+        assertTrue(possibleWords.contains("b"));
+        assertFalse(possibleWords.contains("beautiful"));
         assertFalse(possibleWords.contains("ZOO"));
+    }
+
+    @Test
+    public void getWords_HELEN() throws FileNotFoundException {
+        // given
+        Dictionary dict = new Dictionary("dictionary.txt");
+        Bananagrams grams = new Bananagrams(dict);
+        int[] helen = new int[ALPHABET.length()];
+        helen[7] = 1;   // h
+        helen[4] = 2;   // two e's
+        helen[11] = 1;  // l
+        helen[13] = 1;  // n
+
+        // when
+        doReturn(helen).when(player).getLettersAsArray();
+        List<String> words = grams.getWords(player);
+
+        // then
+        assertEquals(10, words.size());
+        // TODO add more asserts
+    }
+
+    @Test
+    public void getWords() {
+        // given
+        doReturn(Arrays.asList("CAB", "EEL", "CMA")).when(dictionary).getList();
+        Bananagrams grams = new Bananagrams(dictionary);
+        int[] abcde = new int[ALPHABET.length()];
+        abcde[0] = 1; // a
+        abcde[1] = 1; // b
+        abcde[2] = 1; // c
+        abcde[3] = 1; // d
+        abcde[4] = 1; // e
+
+        // when
+        doReturn(abcde).when(player).getLettersAsArray();
+        List<String> words = grams.getWords(player);
+
+        // then
+        assertEquals(1, words.size());
+        assertEquals("CAB", words.get(0));
+        verify(dictionary).getList();
     }
 }
