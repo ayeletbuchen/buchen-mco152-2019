@@ -19,10 +19,9 @@ public class Bananagrams {
      * @return a List of words in the Dictionary that are a subset of these letters
      */
     public List<String> getWords(Player player) {
-        int[] tiles = player.getLettersAsArray();
         ArrayList<String> possibleWords = new ArrayList<>();
         for (String word : dictionary.getList()) {
-            if (word.length() <= tiles.length && isPossibleWord(player, word)) {
+            if (isPossibleWord(player, word)) {
                 possibleWords.add(word);
             }
         }
