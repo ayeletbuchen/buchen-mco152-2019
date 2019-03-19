@@ -26,7 +26,6 @@ class BananagramsTest {
         doReturn(wordList).when(dictionary).getList();
 
         player = mock(Player.class);
-        doReturn('A').when(player).getFirstChar();
         int[] tiles = new int[ALPHABET.length()];
         for (int i = 0; i < tiles.length; i++) {
             tiles[i] = 1;

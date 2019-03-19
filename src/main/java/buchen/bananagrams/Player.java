@@ -4,8 +4,8 @@ import java.util.Random;
 
 public class Player {
 
-    private final int ALPHABET_SIZE = 26;
-    private final char FIRST_CHAR = 'A';
+    public static final int ALPHABET_SIZE = 26;
+    public static final char FIRST_CHAR = 'A';
     private final Random RANDOM = new Random();
     private final int NUM_LETTERS;
     private int[] letters;
@@ -54,9 +54,5 @@ public class Player {
 
     public int[] getLettersAsArray() {
         return letters;
-    }
-
-    public char getFirstChar() {
-        return FIRST_CHAR;
     }
 }

@@ -7,10 +7,10 @@ import java.util.List;
 
 public class Bananagrams {
 
-    private final Dictionary DICTIONARY;
+    private final Dictionary dictionary;
 
     public Bananagrams(Dictionary dictionary) {
-        DICTIONARY = dictionary;
+        this.dictionary = dictionary;
     }
 
     /**
@@ -21,7 +21,7 @@ public class Bananagrams {
     public List<String> getWords(Player player) {
         int[] tiles = player.getLettersAsArray();
         ArrayList<String> possibleWords = new ArrayList<>();
-        for (String word : DICTIONARY.getList()) {
+        for (String word : dictionary.getList()) {
             if (word.length() <= tiles.length && isPossibleWord(player, word)) {
                 possibleWords.add(word);
             }
@@ -41,7 +41,7 @@ public class Bananagrams {
         }
         int[] tiles = player.getLettersAsArray();
         int[] wordLetters = new int[tiles.length];
-        char firstChar = player.getFirstChar();
+        char firstChar = player.FIRST_CHAR;
         word = word.toUpperCase();
 
         for (int i = 0; i < word.length(); i++) {
