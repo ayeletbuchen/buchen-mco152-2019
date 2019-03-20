@@ -12,7 +12,7 @@ public class GolfFrame extends JFrame {
 
     public GolfFrame() {
         setTitle("Touro Golf");
-        setSize(1500,400);
+        setSize(1450,800);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         JPanel root = new JPanel();
