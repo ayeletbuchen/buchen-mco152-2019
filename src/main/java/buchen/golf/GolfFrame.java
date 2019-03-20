@@ -10,9 +10,12 @@ import java.sql.SQLOutput;
 
 public class GolfFrame extends JFrame {
 
+    public static final int WIDTH = 1450;
+    public static final int HEIGHT = 800;
+
     public GolfFrame() {
         setTitle("Touro Golf");
-        setSize(1450,800);
+        setSize(WIDTH, HEIGHT);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         JPanel root = new JPanel();
