@@ -28,7 +28,9 @@ public class GolfCourseComponent extends JComponent {
     private final Color darkBrown = new Color(81, 43, 0);
     private final Color[] groundColors = new Color[] {Color.GREEN, lightBrown, mediumBrown, darkBrown};
     private int groundLevel;
-    private final Projectile projectile = new Projectile(84.85, 45);
+    private Projectile projectile = new Projectile(0, 0);
+    //84.85, 45
+
 
     @Override
     protected void paintComponent(Graphics graphics) {
@@ -43,6 +45,10 @@ public class GolfCourseComponent extends JComponent {
         drawFlagPole(graphics);
         drawFlag(graphics);
         repaint();
+    }
+
+    public void goClicked(double velocity, double degrees) {
+        projectile = new Projectile(velocity, degrees);
     }
 
     private void drawSky(Graphics graphics) {
@@ -104,9 +110,10 @@ public class GolfCourseComponent extends JComponent {
 
         for (int i = 0; i < cloudX.length; i++) {
             int startX = (int) cloudX[i] % GolfFrame.WIDTH;
-            //if (startX + cloudWidth[i] > GolfFrame.WIDTH) {
-            //
-            //}
+            int endX = startX + cloudWidth[i];
+            if (startX + cloudWidth[i] > GolfFrame.WIDTH) {
+                //graphics.drawImage(cloud, );
+            }
             graphics.drawImage(cloud, startX, cloudY[i], cloudWidth[i], cloudHeight[i], null);
             cloudX[i] += 0.05;
         }

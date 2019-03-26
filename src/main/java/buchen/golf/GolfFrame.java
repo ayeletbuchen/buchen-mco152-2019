@@ -24,6 +24,8 @@ public class GolfFrame extends JFrame {
         GolfCourseComponent golfCourseComponent = new GolfCourseComponent();
         root.add(golfCourseComponent, BorderLayout.CENTER);
 
+        root.add(new InfoBar(golfCourseComponent).getInfoBar(), BorderLayout.SOUTH);
+
         setContentPane(root);
     }
 }
