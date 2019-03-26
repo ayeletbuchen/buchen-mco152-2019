@@ -13,25 +13,32 @@ public class GolfCourseComponent extends JComponent {
     private static final int FLAG_WIDTH = 45;
     private static final int FLAG_HEIGHT = 30;
     private double[] cloudX = new double[] {0, 130, 30, 170, 350, 570, 650, 800, 1075, 950, 1125, 1225};
+    private final int[] cloudWidth = new int[] {130, 150, 150, 195, 200, 145, 175, 160, 150, 225, 187, 145};
+    private final int[] cloudHeight = new int[] {55, 75, 75, 120, 125, 70, 100, 85, 75, 150, 112, 70};
     private final Image cloud = new ImageIcon("cloud.png").getImage();
     private final Image golfBall = new ImageIcon("golf_ball.png").getImage();
     private final ImageIcon grassIcon = new ImageIcon("grass.png");
     private final int grassWidth = grassIcon.getIconWidth() / 10;
     private final int grassHeight = grassIcon.getIconHeight() / 10;
     private final Image grass = grassIcon.getImage();
+    private final Color lightBrown = new Color(186, 127, 61);
+    private final Color mediumBrown = new Color(135, 79, 16);
+    private final Color darkBrown = new Color(81, 43, 0);
+    private final Color[] groundColors = new Color[] {Color.GREEN, lightBrown, mediumBrown, darkBrown};
+    private int groundLevel;
 
     @Override
     protected void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
-        int groundLevel = getHeight() - (getHeight() / 3);
+        groundLevel = getHeight() - (getHeight() / 3);
 
         drawSky(graphics);
-        drawClouds(graphics, groundLevel);
-        drawGround(graphics, groundLevel);
+        drawClouds(graphics);
+        drawGround(graphics);
         drawGrass(graphics, 0, groundLevel - grassHeight);
-        drawBall(graphics, groundLevel);
-        drawFlagPole(graphics, groundLevel);
-        drawFlag(graphics, groundLevel);
+        drawBall(graphics);
+        drawFlagPole(graphics);
+        drawFlag(graphics);
         repaint();
     }
 
@@ -40,44 +47,27 @@ public class GolfCourseComponent extends JComponent {
         graphics.fillRect(0, 0, getWidth(), getHeight());
     }
 
-    private void drawGround(Graphics graphics, int groundLevel) {
-        drawGreenGround(graphics, groundLevel);
-        drawLightBrownGround(graphics, groundLevel);
-        drawMediumBrownGround(graphics, groundLevel);
-        drawDarkBrownGround(graphics, groundLevel);
+    private void drawGround(Graphics graphics) {
+        int[] groundY = new int[] {groundLevel, groundLevel + 60, groundLevel + 100, groundLevel + 180};
+        int[] groundHeight = new int[] {getHeight(), 50, 80, getHeight()};
+
+        for (int i = 0; i < groundColors.length; i++) {
+            graphics.setColor(groundColors[i]);
+            graphics.fillRect(0, groundY[i], getWidth(), groundHeight[i]);
+        }
     }
 
-    private void drawGreenGround(Graphics graphics, int groundLevel) {
-        graphics.setColor(Color.GREEN);
-        graphics.fillRect(0, groundLevel, getWidth(), getHeight());
-    }
-
-    private void drawLightBrownGround(Graphics graphics, int groundLevel) {
-        graphics.setColor(new Color(186, 127, 61));
-        graphics.fillRect(0, groundLevel + 60, getWidth(), 50);
-    }
-
-    private void drawMediumBrownGround(Graphics graphics, int groundLevel) {
-        graphics.setColor(new Color(135, 79, 16));
-        graphics.fillRect(0, groundLevel + 100, getWidth(), 80);
-    }
-
-    private void drawDarkBrownGround(Graphics graphics, int groundLevel) {
-        graphics.setColor(new Color(81,43,0));
-        graphics.fillRect(0, groundLevel + 180, getWidth(), getHeight());
-    }
-
-    private void drawBall(Graphics graphics, int groundLevel) {
+    private void drawBall(Graphics graphics) {
         graphics.drawImage(golfBall,
                 BALL_START, groundLevel - BALL_SIZE, BALL_SIZE, BALL_SIZE, null);
     }
 
-    private void drawFlagPole(Graphics graphics, int groundLevel) {
+    private void drawFlagPole(Graphics graphics) {
         graphics.setColor(Color.GRAY);
         graphics.fillRect(FLAG_X, groundLevel - POLE_HEIGHT, POLE_WIDTH, POLE_HEIGHT);
     }
 
-    private void drawFlag(Graphics graphics, int groundLevel) {
+    private void drawFlag(Graphics graphics) {
         graphics.setColor(Color.RED);
         graphics.fillPolygon(
                 new int[] {
@@ -91,32 +81,23 @@ public class GolfCourseComponent extends JComponent {
                 3);
     }
 
-    private void drawClouds(Graphics graphics, int groundLevel) {
-        graphics.drawImage(cloud, (int) cloudX[0] % GolfFrame.WIDTH, groundLevel - 470, 130, 55, null);
-
-        graphics.drawImage(cloud, (int) cloudX[1] % GolfFrame.WIDTH, groundLevel - 230, 150, 75, null);
-        graphics.drawImage(cloud, (int) cloudX[2] % GolfFrame.WIDTH,groundLevel - 200,150,75,null);
-
-
-        graphics.drawImage(cloud, (int) cloudX[3] % GolfFrame.WIDTH, groundLevel - 445, 195, 120, null);
-
-        graphics.drawImage(cloud, (int) cloudX[4] % GolfFrame.WIDTH, groundLevel - 340, 200, 125, null);
-
-        graphics.drawImage(cloud, (int) cloudX[5] % GolfFrame.WIDTH, groundLevel - 460, 145, 70, null);
-
-
-        graphics.drawImage(cloud, (int) cloudX[6] % GolfFrame.WIDTH, groundLevel - 240, 175, 100, null);
-        graphics.drawImage(cloud, (int) cloudX[7] % GolfFrame.WIDTH, groundLevel - 235, 160, 85, null);
-
-
-        graphics.drawImage(cloud, (int) cloudX[8] % GolfFrame.WIDTH, groundLevel - 490, 150, 75, null);
-        graphics.drawImage(cloud, (int) cloudX[9] % GolfFrame.WIDTH, groundLevel - 470, 225, 150, null);
-        graphics.drawImage(cloud, (int) cloudX[10] % GolfFrame.WIDTH, groundLevel - 455, 187, 112, null);
-
-
-        graphics.drawImage(cloud, (int) cloudX[11] % GolfFrame.WIDTH, groundLevel - 290, 145, 70, null);
+    private void drawClouds(Graphics graphics) {
+        int[] cloudY = new int[] {
+                groundLevel - 470,
+                groundLevel - 230,
+                groundLevel - 200,
+                groundLevel - 445,
+                groundLevel - 340,
+                groundLevel - 460,
+                groundLevel - 240,
+                groundLevel - 235,
+                groundLevel - 490,
+                groundLevel - 470,
+                groundLevel - 455,
+                groundLevel - 290};
 
         for (int i = 0; i < cloudX.length; i++) {
+            graphics.drawImage(cloud, (int) cloudX[i] % GolfFrame.WIDTH, cloudY[i], cloudWidth[i], cloudHeight[i], null);
             cloudX[i] += 0.05;
         }
     }
