@@ -12,18 +12,13 @@ public class GolfCourseComponent extends JComponent {
     private static final int POLE_HEIGHT = 175;
     private static final int FLAG_WIDTH = 45;
     private static final int FLAG_HEIGHT = 30;
-    private double cloud0X = 0;
-    private double cloud1X = 130;
-    private double cloud2X = 30;
-    private double cloud3X = 170;
-    private double cloud4X = 350;
-    private double cloud5X = 570;
-    private double cloud6X = 650;
-    private double cloud7X = 800;
-    private double cloud8X = 1075;
-    private double cloud9X = 950;
-    private double cloud10X = 1125;
-    private double cloud11X = 1225.0;
+    private double[] cloudX = new double[] {0, 130, 30, 170, 350, 570, 650, 800, 1075, 950, 1125, 1225};
+    private final Image cloud = new ImageIcon("cloud.png").getImage();
+    private final Image golfBall = new ImageIcon("golf_ball.png").getImage();
+    private final ImageIcon grassIcon = new ImageIcon("grass.png");
+    private final int grassWidth = grassIcon.getIconWidth() / 10;
+    private final int grassHeight = grassIcon.getIconHeight() / 10;
+    private final Image grass = grassIcon.getImage();
 
     @Override
     protected void paintComponent(Graphics graphics) {
@@ -33,7 +28,7 @@ public class GolfCourseComponent extends JComponent {
         drawSky(graphics);
         drawClouds(graphics, groundLevel);
         drawGround(graphics, groundLevel);
-        drawGrass(graphics, groundLevel);
+        drawGrass(graphics, 0, groundLevel - grassHeight);
         drawBall(graphics, groundLevel);
         drawFlagPole(graphics, groundLevel);
         drawFlag(graphics, groundLevel);
@@ -73,7 +68,7 @@ public class GolfCourseComponent extends JComponent {
     }
 
     private void drawBall(Graphics graphics, int groundLevel) {
-        graphics.drawImage(new ImageIcon("golf_ball.png").getImage(),
+        graphics.drawImage(golfBall,
                 BALL_START, groundLevel - BALL_SIZE, BALL_SIZE, BALL_SIZE, null);
     }
 
@@ -97,59 +92,40 @@ public class GolfCourseComponent extends JComponent {
     }
 
     private void drawClouds(Graphics graphics, int groundLevel) {
-        Image cloud = new ImageIcon("cloud.png").getImage();
+        graphics.drawImage(cloud, (int) cloudX[0] % GolfFrame.WIDTH, groundLevel - 470, 130, 55, null);
 
-        graphics.drawImage(cloud, (int) cloud0X % GolfFrame.WIDTH, groundLevel - 470, 130, 55, null);
-
-        graphics.drawImage(cloud, (int) cloud1X % GolfFrame.WIDTH, groundLevel - 230, 150, 75, null);
-        graphics.drawImage(cloud, (int) cloud2X % GolfFrame.WIDTH,groundLevel - 200,150,75,null);
+        graphics.drawImage(cloud, (int) cloudX[1] % GolfFrame.WIDTH, groundLevel - 230, 150, 75, null);
+        graphics.drawImage(cloud, (int) cloudX[2] % GolfFrame.WIDTH,groundLevel - 200,150,75,null);
 
 
-        graphics.drawImage(cloud, (int) cloud3X % GolfFrame.WIDTH, groundLevel - 445, 195, 120, null);
+        graphics.drawImage(cloud, (int) cloudX[3] % GolfFrame.WIDTH, groundLevel - 445, 195, 120, null);
 
-        graphics.drawImage(cloud, (int) cloud4X % GolfFrame.WIDTH, groundLevel - 340, 200, 125, null);
+        graphics.drawImage(cloud, (int) cloudX[4] % GolfFrame.WIDTH, groundLevel - 340, 200, 125, null);
 
-        graphics.drawImage(cloud, (int) cloud5X % GolfFrame.WIDTH, groundLevel - 460, 145, 70, null);
-
-
-        graphics.drawImage(cloud, (int) cloud6X % GolfFrame.WIDTH, groundLevel - 240, 175, 100, null);
-        graphics.drawImage(cloud, (int) cloud7X % GolfFrame.WIDTH, groundLevel - 235, 160, 85, null);
+        graphics.drawImage(cloud, (int) cloudX[5] % GolfFrame.WIDTH, groundLevel - 460, 145, 70, null);
 
 
-        graphics.drawImage(cloud, (int) cloud8X % GolfFrame.WIDTH, groundLevel - 490, 150, 75, null);
-        graphics.drawImage(cloud, (int) cloud9X % GolfFrame.WIDTH, groundLevel - 470, 225, 150, null);
-        graphics.drawImage(cloud, (int) cloud10X % GolfFrame.WIDTH, groundLevel - 455, 187, 112, null);
+        graphics.drawImage(cloud, (int) cloudX[6] % GolfFrame.WIDTH, groundLevel - 240, 175, 100, null);
+        graphics.drawImage(cloud, (int) cloudX[7] % GolfFrame.WIDTH, groundLevel - 235, 160, 85, null);
 
 
-        graphics.drawImage(cloud, (int) cloud11X % GolfFrame.WIDTH, groundLevel - 290, 145, 70, null);
+        graphics.drawImage(cloud, (int) cloudX[8] % GolfFrame.WIDTH, groundLevel - 490, 150, 75, null);
+        graphics.drawImage(cloud, (int) cloudX[9] % GolfFrame.WIDTH, groundLevel - 470, 225, 150, null);
+        graphics.drawImage(cloud, (int) cloudX[10] % GolfFrame.WIDTH, groundLevel - 455, 187, 112, null);
 
-        cloud0X += 0.05;
-        cloud1X += 0.05;
-        cloud2X += 0.05;
-        cloud3X += 0.05;
-        cloud4X += 0.05;
-        cloud5X += 0.05;
-        cloud6X += 0.05;
-        cloud7X += 0.05;
-        cloud8X += 0.05;
-        cloud9X += 0.05;
-        cloud10X += 0.05;
-        cloud11X += 0.05;
+
+        graphics.drawImage(cloud, (int) cloudX[11] % GolfFrame.WIDTH, groundLevel - 290, 145, 70, null);
+
+        for (int i = 0; i < cloudX.length; i++) {
+            cloudX[i] += 0.05;
+        }
     }
 
-    private void drawGrass(Graphics graphics, int groundLevel) {
-        ImageIcon grassIcon = new ImageIcon("grass.png");
-        int width = grassIcon.getIconWidth() / 10;
-        int height = grassIcon.getIconHeight() / 10;
-
-        drawGrass(graphics, 0, groundLevel - height, grassIcon.getImage(), width, height);
-    }
-
-    private void drawGrass(Graphics graphics, int xPosition, int yPosition, Image grass, int width, int height) {
-        graphics.drawImage(grass, xPosition, yPosition, width, height, null);
-        int imageXEnd = xPosition + width;
+    private void drawGrass(Graphics graphics, int xPosition, int yPosition) {
+        graphics.drawImage(grass, xPosition, yPosition, grassWidth, grassHeight, null);
+        int imageXEnd = xPosition + grassWidth;
         if (imageXEnd < GolfFrame.WIDTH) {
-            drawGrass(graphics, imageXEnd, yPosition, grass, width, height);
+            drawGrass(graphics, imageXEnd, yPosition);
         }
     }
 }
