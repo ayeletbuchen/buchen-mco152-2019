@@ -33,6 +33,7 @@ public class GolfCourseComponent extends JComponent {
         drawSky(graphics);
         drawClouds(graphics, groundLevel);
         drawGround(graphics, groundLevel);
+        drawGrass(graphics, groundLevel);
         drawBall(graphics, groundLevel);
         drawFlagPole(graphics, groundLevel);
         drawFlag(graphics, groundLevel);
@@ -45,13 +46,35 @@ public class GolfCourseComponent extends JComponent {
     }
 
     private void drawGround(Graphics graphics, int groundLevel) {
+        drawGreenGround(graphics, groundLevel);
+        drawLightBrownGround(graphics, groundLevel);
+        drawMediumBrownGround(graphics, groundLevel);
+        drawDarkBrownGround(graphics, groundLevel);
+    }
+
+    private void drawGreenGround(Graphics graphics, int groundLevel) {
         graphics.setColor(Color.GREEN);
         graphics.fillRect(0, groundLevel, getWidth(), getHeight());
     }
 
+    private void drawLightBrownGround(Graphics graphics, int groundLevel) {
+        graphics.setColor(new Color(186, 127, 61));
+        graphics.fillRect(0, groundLevel + 60, getWidth(), 50);
+    }
+
+    private void drawMediumBrownGround(Graphics graphics, int groundLevel) {
+        graphics.setColor(new Color(135, 79, 16));
+        graphics.fillRect(0, groundLevel + 100, getWidth(), 80);
+    }
+
+    private void drawDarkBrownGround(Graphics graphics, int groundLevel) {
+        graphics.setColor(new Color(81,43,0));
+        graphics.fillRect(0, groundLevel + 180, getWidth(), getHeight());
+    }
+
     private void drawBall(Graphics graphics, int groundLevel) {
-        graphics.setColor(Color.WHITE);
-        graphics.fillOval(BALL_START, groundLevel - BALL_SIZE, BALL_SIZE, BALL_SIZE);
+        graphics.drawImage(new ImageIcon("golf_ball.png").getImage(),
+                BALL_START, groundLevel - BALL_SIZE, BALL_SIZE, BALL_SIZE, null);
     }
 
     private void drawFlagPole(Graphics graphics, int groundLevel) {
@@ -112,5 +135,21 @@ public class GolfCourseComponent extends JComponent {
         cloud9X += 0.05;
         cloud10X += 0.05;
         cloud11X += 0.05;
+    }
+
+    private void drawGrass(Graphics graphics, int groundLevel) {
+        ImageIcon grassIcon = new ImageIcon("grass.png");
+        int width = grassIcon.getIconWidth() / 10;
+        int height = grassIcon.getIconHeight() / 10;
+
+        drawGrass(graphics, 0, groundLevel - height, grassIcon.getImage(), width, height);
+    }
+
+    private void drawGrass(Graphics graphics, int xPosition, int yPosition, Image grass, int width, int height) {
+        graphics.drawImage(grass, xPosition, yPosition, width, height, null);
+        int imageXEnd = xPosition + width;
+        if (imageXEnd < GolfFrame.WIDTH) {
+            drawGrass(graphics, imageXEnd, yPosition, grass, width, height);
+        }
     }
 }
