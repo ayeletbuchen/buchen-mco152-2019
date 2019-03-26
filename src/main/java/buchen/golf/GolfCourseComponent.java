@@ -1,5 +1,7 @@
 package buchen.golf;
 
+import buchen.physics.Projectile;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -26,6 +28,7 @@ public class GolfCourseComponent extends JComponent {
     private final Color darkBrown = new Color(81, 43, 0);
     private final Color[] groundColors = new Color[] {Color.GREEN, lightBrown, mediumBrown, darkBrown};
     private int groundLevel;
+    private final Projectile projectile = new Projectile(84.85, 45);
 
     @Override
     protected void paintComponent(Graphics graphics) {
@@ -59,7 +62,10 @@ public class GolfCourseComponent extends JComponent {
 
     private void drawBall(Graphics graphics) {
         graphics.drawImage(golfBall,
-                BALL_START, groundLevel - BALL_SIZE, BALL_SIZE, BALL_SIZE, null);
+                BALL_START + (int) projectile.getX(), groundLevel - BALL_SIZE - (int) projectile.getY(), BALL_SIZE, BALL_SIZE, null);
+        if (projectile.getY() >= 0) {
+            projectile.addTime(0.02);
+        }
     }
 
     private void drawFlagPole(Graphics graphics) {
@@ -97,7 +103,11 @@ public class GolfCourseComponent extends JComponent {
                 groundLevel - 290};
 
         for (int i = 0; i < cloudX.length; i++) {
-            graphics.drawImage(cloud, (int) cloudX[i] % GolfFrame.WIDTH, cloudY[i], cloudWidth[i], cloudHeight[i], null);
+            int startX = (int) cloudX[i] % GolfFrame.WIDTH;
+            //if (startX + cloudWidth[i] > GolfFrame.WIDTH) {
+            //
+            //}
+            graphics.drawImage(cloud, startX, cloudY[i], cloudWidth[i], cloudHeight[i], null);
             cloudX[i] += 0.05;
         }
     }
