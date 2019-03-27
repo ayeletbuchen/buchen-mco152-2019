@@ -10,8 +10,8 @@ public class InfoBar {
     private final int textFieldLength = 5;
     private JTextField powerText;
     private JTextField angleText;
-    JLabel angleLabel;
-    JLabel powerLabel;
+    private JLabel angleLabel;
+    private JLabel powerLabel;
     private GolfCourseComponent golfCourseComponent;
 
 

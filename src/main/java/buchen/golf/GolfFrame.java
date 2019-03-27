@@ -1,7 +1,5 @@
 package buchen.golf;
 
-//import com.sun.tools.corba.se.idl.constExpr.BooleanOr;
-
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
