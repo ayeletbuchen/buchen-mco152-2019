@@ -1,6 +1,5 @@
 package buchen.net;
 
-import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
