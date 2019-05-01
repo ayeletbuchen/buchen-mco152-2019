@@ -1,11 +1,9 @@
 package buchen.dictionary;
 
 import org.junit.jupiter.api.Test;
-
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class DictionaryTest {
@@ -13,7 +11,7 @@ class DictionaryTest {
     @Test
     public void containsTrue() throws FileNotFoundException {
         // given
-        Dictionary dictionary = new Dictionary("dictionary.txt");
+        Dictionary dictionary = new Dictionary("src/main/resources/dictionary.txt");
 
         // when
         // then
@@ -23,7 +21,7 @@ class DictionaryTest {
     @Test
     public void containsTrueLowerCase() throws FileNotFoundException {
         // given
-        Dictionary dictionary = new Dictionary("dictionary.txt");
+        Dictionary dictionary = new Dictionary("src/main/resources/dictionary.txt");
 
         // when
         // then
@@ -33,7 +31,7 @@ class DictionaryTest {
     @Test
     public void containsTrueMixedCase() throws FileNotFoundException {
         // given
-        Dictionary dictionary = new Dictionary("dictionary.txt");
+        Dictionary dictionary = new Dictionary("src/main/resources/dictionary.txt");
 
         // when
         // then
@@ -43,7 +41,7 @@ class DictionaryTest {
     @Test
     public void containsFalse() throws FileNotFoundException {
         // given
-        Dictionary dictionary = new Dictionary("dictionary.txt");
+        Dictionary dictionary = new Dictionary("src/main/resources/dictionary.txt");
 
         // when
         // then
@@ -53,7 +51,7 @@ class DictionaryTest {
     @Test
     public void correctSize() throws FileNotFoundException {
         // given
-        Dictionary dictionary = new Dictionary("dictionary.txt");
+        Dictionary dictionary = new Dictionary("src/main/resources/dictionary.txt");
         int actualSize = 167964;
 
         // when
@@ -64,7 +62,7 @@ class DictionaryTest {
     @Test
     public void isPalindromeTrueOdd() throws FileNotFoundException {
         // given
-        Dictionary dictionary = new Dictionary("dictionary.txt");
+        Dictionary dictionary = new Dictionary("src/main/resources/dictionary.txt");
 
         // when
         // then
@@ -74,7 +72,7 @@ class DictionaryTest {
     @Test
     public void isPalindromeTrueEven() throws FileNotFoundException {
         // given
-        Dictionary dictionary = new Dictionary("dictionary.txt");
+        Dictionary dictionary = new Dictionary("src/main/resources/dictionary.txt");
 
         // when
         // then
@@ -84,7 +82,7 @@ class DictionaryTest {
     @Test
     public void isPalindromeTrueMixedCase() throws FileNotFoundException {
         // given
-        Dictionary dictionary = new Dictionary("dictionary.txt");
+        Dictionary dictionary = new Dictionary("src/main/resources/dictionary.txt");
 
         // when
         // then
@@ -94,7 +92,7 @@ class DictionaryTest {
     @Test
     public void isPalindromeTrueUpperCase() throws FileNotFoundException {
         // given
-        Dictionary dictionary = new Dictionary("dictionary.txt");
+        Dictionary dictionary = new Dictionary("src/main/resources/dictionary.txt");
 
         // when
         // then
@@ -104,7 +102,7 @@ class DictionaryTest {
     @Test
     public void isPalindromeFalse() throws FileNotFoundException {
         // given
-        Dictionary dictionary = new Dictionary("dictionary.txt");
+        Dictionary dictionary = new Dictionary("src/main/resources/dictionary.txt");
 
         // when
         // then
@@ -114,7 +112,7 @@ class DictionaryTest {
     @Test
     public void getPalindromesTestFile() throws FileNotFoundException {
         // given
-        Dictionary testDictionary = new Dictionary("dictionaryTest.txt");
+        Dictionary testDictionary = new Dictionary("src/main/resources/dictionaryTest.txt");
         ArrayList<String> expectedPalindromes = new ArrayList<>();
         expectedPalindromes.add("dad");
         expectedPalindromes.add("mom");

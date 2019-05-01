@@ -9,7 +9,7 @@ public class Cloud {
     protected final double yPosition;
     protected final int width;
     protected final int height;
-    protected final Image image = new ImageIcon("cloud.png").getImage();
+    protected final Image image = new ImageIcon("src/main/resources/cloud.png").getImage();
 
     public Cloud(double x, double y, int width, int height) {
         xPosition = x;

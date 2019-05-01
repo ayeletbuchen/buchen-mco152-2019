@@ -16,8 +16,8 @@ public class GolfCourseComponent extends JComponent {
     private static final int FLAG_HEIGHT = 30;
 
     private Cloud[] clouds = new Clouds().getClouds();
-    private final Image golfBall = new ImageIcon("golf_ball.png").getImage();
-    private final Grass grass = new Grass("grass.png");
+    private final Image golfBall = new ImageIcon("src/main/resources/golf_ball.png").getImage();
+    private final Grass grass = new Grass("src/main/resources/grass.png");
     private final Color[] groundColors = new Color[] {
             Color.GREEN,
             new Color(186, 127, 61),    // light brown

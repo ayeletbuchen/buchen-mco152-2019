@@ -3,11 +3,9 @@ package buchen.bananagrams;
 import buchen.dictionary.Dictionary;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -117,7 +115,7 @@ class BananagramsTest {
     @Test
     public void getWords_HELEN() throws FileNotFoundException {
         // given
-        Dictionary dict = new Dictionary("dictionary.txt");
+        Dictionary dict = new Dictionary("src/main/resources/dictionary.txt");
         Bananagrams grams = new Bananagrams(dict);
         int[] helen = new int[ALPHABET.length()];
         helen[7] = 1;   // h
