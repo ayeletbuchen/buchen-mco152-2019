@@ -1,10 +1,7 @@
 package buchen.golf;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.sql.SQLOutput;
 
 public class GolfFrame extends JFrame {
 

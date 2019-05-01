@@ -1,7 +1,6 @@
 package buchen.golf;
 
 import buchen.physics.Projectile;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -34,7 +33,7 @@ public class GolfCourseComponent extends JComponent {
         drawSky(graphics);
         drawClouds(graphics);
         drawGround(graphics);
-        drawGrass(graphics, 0, groundLevel - grass.grassHeight);
+        drawGrass(graphics, 0, groundLevel - grass.getGrassHeight());
         drawFlagPole(graphics);
         drawFlag(graphics);
         drawBall(graphics);
@@ -89,20 +88,23 @@ public class GolfCourseComponent extends JComponent {
 
     private void drawClouds(Graphics graphics) {
         for (int i = 0; i < clouds.length; i++) {
-            int startX = (int) clouds[i].xPosition % GolfFrame.WIDTH;
+            int startX = (int) clouds[i].getXPosition() % GolfFrame.WIDTH;
             int amountShown = GolfFrame.WIDTH - startX;
-            int cloudY = (int) (groundLevel - clouds[i].yPosition);
-            if (startX + clouds[i].width > GolfFrame.WIDTH) {
-                graphics.drawImage(clouds[i].image, 0 - amountShown, cloudY, clouds[i].width, clouds[i].height, null);
+            int cloudY = (int) (groundLevel - clouds[i].getYPosition());
+            int width = clouds[i].getWidth();
+            int height = clouds[i].getHeight();
+            Image image = clouds[i].getImage();
+            if (startX + width > GolfFrame.WIDTH) {
+                graphics.drawImage(image, 0 - amountShown, cloudY, width, height, null);
             }
-            graphics.drawImage(clouds[i].image, startX, cloudY, clouds[i].width, clouds[i].height, null);
-            clouds[i].xPosition += 0.05;
+            graphics.drawImage(image, startX, cloudY, width, height, null);
+            clouds[i].incrementXPosition(0.05);
         }
     }
 
     private void drawGrass(Graphics graphics, int xPosition, int yPosition) {
-        graphics.drawImage(grass.image, xPosition, yPosition, grass.grassWidth, grass.grassHeight, null);
-        int imageXEnd = xPosition + grass.grassWidth;
+        graphics.drawImage(grass.getImage(), xPosition, yPosition, grass.getGrassWidth(), grass.getGrassHeight(), null);
+        int imageXEnd = xPosition + grass.getGrassWidth();
         if (imageXEnd < GolfFrame.WIDTH) {
             drawGrass(graphics, imageXEnd, yPosition);
         }
