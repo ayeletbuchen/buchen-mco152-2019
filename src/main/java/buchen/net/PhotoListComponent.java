@@ -30,11 +30,7 @@ public class PhotoListComponent {
         back.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    previousClicked();
-                } catch (MalformedURLException e1) {
-                    e1.printStackTrace();
-                }
+                previousClicked();
             }
         });
         bottomBar.add(back);
@@ -49,24 +45,20 @@ public class PhotoListComponent {
         next.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    nextClicked();
-                } catch (MalformedURLException e1) {
-                    e1.printStackTrace();
-                }
+                nextClicked();
             }
         });
         bottomBar.add(next);
     }
 
-    private void nextClicked() throws MalformedURLException {
+    private void nextClicked() {
         if (index < photos.size() - 1) {
             index++;
             setPhoto();
         }
     }
 
-    private void previousClicked() throws MalformedURLException {
+    private void previousClicked() {
         if (index > 0) {
             index--;
             setPhoto();
@@ -77,13 +69,17 @@ public class PhotoListComponent {
         return panel;
     }
 
-    public void setPhotoList(PhotoList photos) throws MalformedURLException {
+    public void setPhotoList(PhotoList photos) {
         this.photos = photos;
         setPhoto();
     }
 
-    private void setPhoto() throws MalformedURLException {
-        imageLabel.setIcon(new ImageIcon(new URL(photos.get(index).getUrl())));
-        label.setText(String.valueOf(index + 1));
+    private void setPhoto() {
+        try {
+            imageLabel.setIcon(new ImageIcon(new URL(photos.get(index).getUrl())));
+            label.setText(String.valueOf(index + 1));
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
 }

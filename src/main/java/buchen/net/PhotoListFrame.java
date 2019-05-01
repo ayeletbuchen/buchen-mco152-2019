@@ -3,6 +3,8 @@ package buchen.net;
 import io.reactivex.disposables.Disposable;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class PhotoListFrame extends JFrame {
 
@@ -22,6 +24,11 @@ public class PhotoListFrame extends JFrame {
 
         JsonPlaceHolderClient client = new JsonPlaceHolderClient();
         Disposable disposable = client.getPhotoList().subscribe(component::setPhotoList);
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent event) {
+                disposable.dispose();
+            }
+        });
 
         setContentPane(root);
     }
