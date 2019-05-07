@@ -2,8 +2,6 @@ package buchen.net;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -15,6 +13,7 @@ public class PhotoListComponent {
     private JLabel imageLabel = new JLabel();
     private PhotoList photos;
     private int index;
+    private JList list;
 
 
     public PhotoListComponent() {
@@ -27,12 +26,7 @@ public class PhotoListComponent {
 
     private void addBackButton() {
         JButton back = new JButton("Previous");
-        back.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                previousClicked();
-            }
-        });
+        back.addActionListener(e -> previousClicked());
         bottomBar.add(back);
     }
 
@@ -42,12 +36,7 @@ public class PhotoListComponent {
 
     private void addNextButton() {
         JButton next = new JButton("Next");
-        next.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                nextClicked();
-            }
-        });
+        next.addActionListener(e -> nextClicked());
         bottomBar.add(next);
     }
 
@@ -71,6 +60,7 @@ public class PhotoListComponent {
 
     public void setPhotoList(PhotoList photos) {
         this.photos = photos;
+        addList();
         setPhoto();
     }
 
@@ -78,8 +68,28 @@ public class PhotoListComponent {
         try {
             imageLabel.setIcon(new ImageIcon(new URL(photos.get(index).getUrl())));
             label.setText(String.valueOf(index + 1));
+            list.setSelectedIndex(index);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
+    }
+
+    private void addList() {
+        DefaultListModel listModel = new DefaultListModel();
+        for (Photo photo : photos) {
+            listModel.addElement(photo.getTitle());
+        }
+        list = new JList(listModel);
+        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        list.setLayoutOrientation(JList.VERTICAL);
+        list.setVisibleRowCount(-1);
+
+        JScrollPane scrollPane = new JScrollPane(list);
+
+        list.addListSelectionListener(e -> {
+            index = list.getSelectedIndex();
+            setPhoto();
+        });
+        panel.add(scrollPane, BorderLayout.EAST);
     }
 }

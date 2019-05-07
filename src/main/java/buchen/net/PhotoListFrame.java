@@ -8,7 +8,7 @@ import java.awt.event.WindowEvent;
 
 public class PhotoListFrame extends JFrame {
 
-    private final int width = 825;
+    private final int width = 1200;
     private final int height = 800;
 
     public PhotoListFrame() {
