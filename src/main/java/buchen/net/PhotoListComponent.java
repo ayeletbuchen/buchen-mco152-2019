@@ -14,12 +14,14 @@ public class PhotoListComponent {
     private PhotoList photos;
     private int index;
     private JList list;
+    private DefaultListModel listModel;
 
 
     public PhotoListComponent() {
         addBackButton();
         addLabel();
         addNextButton();
+        addList();
         panel.add(imageLabel, BorderLayout.CENTER);
         panel.add(bottomBar, BorderLayout.SOUTH);
     }
@@ -60,7 +62,7 @@ public class PhotoListComponent {
 
     public void setPhotoList(PhotoList photos) {
         this.photos = photos;
-        addList();
+        addAllPhotos();
         setPhoto();
     }
 
@@ -74,11 +76,14 @@ public class PhotoListComponent {
         }
     }
 
-    private void addList() {
-        DefaultListModel listModel = new DefaultListModel();
+    private void addAllPhotos() {
         for (Photo photo : photos) {
             listModel.addElement(photo.getTitle());
         }
+    }
+
+    private void addList() {
+        listModel = new DefaultListModel();
         list = new JList(listModel);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.setLayoutOrientation(JList.VERTICAL);

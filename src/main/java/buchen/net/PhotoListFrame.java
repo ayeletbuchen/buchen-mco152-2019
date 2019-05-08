@@ -1,6 +1,8 @@
 package buchen.net;
 
 import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+import org.apache.commons.lang3.time.StopWatch;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -23,12 +25,19 @@ public class PhotoListFrame extends JFrame {
 
 
         JsonPlaceHolderClient client = new JsonPlaceHolderClient();
-        Disposable disposable = client.getPhotoList().subscribe(component::setPhotoList);
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+        Disposable disposable = client.getPhotoList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.trampoline())
+                .subscribe(component::setPhotoList);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent event) {
                 disposable.dispose();
             }
         });
+        stopWatch.stop();
+        System.out.println(stopWatch.getTime());
 
         setContentPane(root);
     }
